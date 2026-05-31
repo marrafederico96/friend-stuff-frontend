@@ -1,0 +1,48 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      {{isLoginPage() ? "Login" : "Register"}}
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form>
+      @if(!isLoginPage()) {
+        <mat-form-field appearance="outline">
+          <mat-label>Username</mat-label>
+          <input matInput placeholder="username" required />
+        </mat-form-field>
+      }
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" placeholder="email@email.com" required />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Password</mat-label>
+        <input matInput type="password" placeholder="****" required />
+      </mat-form-field>
+
+      @if(!isLoginPage()) {
+        <mat-form-field appearance="outline">
+          <mat-label>Confirm Password</mat-label>
+          <input matInput type="password" placeholder="****" required />
+        </mat-form-field>
+      }
+      <button matButton="tonal">{{isLoginPage() ? 'Login':'Register'}}</button>
+
+    </form>
+  </mat-card-content>
+  <mat-card-footer>
+    @if(isLoginPage()) {
+      <div class="form-link">
+        <span >New User?</span>
+        <a routerLink="/auth/register">Register</a>
+      </div>
+    }@else {
+      <div class="form-link">
+        <span>Already register?</span>
+        <a routerLink="/auth/login">Login</a>
+      </div>
+    }
+  </mat-card-footer>
+</mat-card>

@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, signal } from '@angular/core';
-import { inject } from '@angular/core/primitives/di';
+import { inject, Injectable, signal } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { LoginRequest, RegisterRequest, TokenResponse } from '../models/auth.model';
 import { Observable, tap } from 'rxjs';
@@ -19,12 +18,12 @@ export class AuthService {
     return this.http.post<Result>(`${this.apiUrl}/Auth/Register`, data);
   }
 
-  login(data: LoginRequest): Observable<Result<TokenResponse>> {
+  login(data: LoginRequest): Observable<TokenResponse> {
     return this.http
-      .post<Result<TokenResponse>>(`${this.apiUrl}/Auth/Login`, data, { withCredentials: true })
+      .post<TokenResponse>(`${this.apiUrl}/Auth/Login`, data, { withCredentials: true })
       .pipe(
         tap((response) => {
-          var token = response.value?.jwt;
+          var token = response.jwt;
           if (token) {
             localStorage.setItem('token', token);
             this.checkAuthState();

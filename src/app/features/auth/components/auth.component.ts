@@ -44,15 +44,7 @@ export class AuthComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.url.subscribe({
       next: (data) => {
-        if (data[data.length - 1].path === 'logout') {
-          this.authService.logout().subscribe({
-            next: () => {
-              this.router.navigate(['auth/login']);
-            },
-          });
-        } else {
-          this.isLoginPage.set(data[data.length - 1].path === 'login');
-        }
+        this.isLoginPage.set(data[data.length - 1].path === 'login');
         this.generateForm();
       },
     });

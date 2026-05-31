@@ -1,9 +1,19 @@
 <mat-toolbar>
-    <span>Friend Stuff</span>
+    <a routerLink="">Friend Stuff</a>
     <button matIconButton [matMenuTriggerFor]="menu">
         <mat-icon>person</mat-icon>
     </button>
     <mat-menu #menu="matMenu">
-      <a [routerLink]="isAuthenticated() ? '/auth/logout':'auth/login'" mat-menu-item>{{isAuthenticated() ? 'Logout':'Login'}}</a>
-    </mat-menu>
+        @if (!isAuthenticated()) {
+          <a mat-menu-item routerLink="auth/login">Login</a>
+        } @else {
+          <button mat-menu-item (click)="logout()" [disabled]="isLoading()">
+            @if (isLoading()) {
+              <mat-spinner [diameter]="20" />
+            } @else {
+              <span>Logout</span>
+            }
+          </button>
+        }
+      </mat-menu>
 </mat-toolbar>

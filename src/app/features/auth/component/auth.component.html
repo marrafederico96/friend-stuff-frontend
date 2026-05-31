@@ -5,30 +5,39 @@
     </mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <form>
+    <form [formGroup]="authForm" (ngSubmit)="onSubmit()">
       @if(!isLoginPage()) {
         <mat-form-field appearance="outline">
           <mat-label>Username</mat-label>
-          <input matInput placeholder="username" required />
+          <input matInput placeholder="username" required formControlName="username"/>
         </mat-form-field>
       }
       <mat-form-field appearance="outline">
         <mat-label>Email</mat-label>
-        <input matInput type="email" placeholder="email@email.com" required />
+        <input matInput type="email" placeholder="email@email.com" required formControlName="emailAddress" />
       </mat-form-field>
 
       <mat-form-field appearance="outline">
         <mat-label>Password</mat-label>
-        <input matInput type="password" placeholder="****" required />
+        <input matInput type="password" placeholder="****" required formControlName="password"/>
       </mat-form-field>
 
       @if(!isLoginPage()) {
         <mat-form-field appearance="outline">
           <mat-label>Confirm Password</mat-label>
-          <input matInput type="password" placeholder="****" required />
+          <input matInput type="password" placeholder="****" required formControlName="confirmPassword"/>
         </mat-form-field>
       }
-      <button matButton="tonal">{{isLoginPage() ? 'Login':'Register'}}</button>
+      @if(error()) {
+        <mat-error>{{error()?.message}}</mat-error>
+      }
+        <button matButton="tonal" [disabled]="authForm.invalid || isLoading()" >
+          @if(isLoading()) {
+            <mat-spinner diameter=20 />
+          }@else {
+            {{isLoginPage() ? 'Login':'Register'}}
+          }
+        </button>
 
     </form>
   </mat-card-content>

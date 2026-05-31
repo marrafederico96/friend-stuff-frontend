@@ -75,6 +75,7 @@ export class AuthComponent implements OnInit {
           next: () => {
             this.isLoading.set(false);
             this.error.set(null);
+            this.authForm.reset();
             this.router.navigate(['']);
           },
           error: (response: HttpErrorResponse) => {
@@ -89,6 +90,7 @@ export class AuthComponent implements OnInit {
           next: () => {
             this.error.set(null);
             this.isLoading.set(false);
+            this.authForm.reset();
             this.router.navigate(['/auth/login']);
           },
           error: (response: HttpErrorResponse) => {

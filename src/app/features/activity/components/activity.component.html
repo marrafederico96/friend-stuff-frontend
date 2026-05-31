@@ -1,0 +1,35 @@
+<h2 mat-dialog-title>Create Activity</h2>
+<mat-dialog-content>
+  <form [formGroup]="activityForm" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="outline">
+      <mat-label>Name</mat-label>
+      <input matInput required placeholder="Activity name" formControlName="name"/>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Description</mat-label>
+      <input matInput placeholder="Activity descritpion (optional)" formControlName="description"/>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+        <mat-label>Enter a date range</mat-label>
+      <mat-date-range-input [rangePicker]="picker">
+        <input matStartDate placeholder="Start date" formControlName="startDate">
+        <input matEndDate placeholder="End date" formControlName="endDate">
+      </mat-date-range-input>
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-date-range-picker #picker></mat-date-range-picker>
+    </mat-form-field>
+    @if(error()) {
+      <mat-error>{{error()?.message}}</mat-error>
+    }
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button matButton (click)="close()">Cancel</button>
+  <button matButton="tonal" [disabled]="activityForm.invalid ||isLoading()" (click)="onSubmit()">
+    @if(isLoading()) {
+      <mat-spinner diameter=20></mat-spinner>
+    } @else {
+      Create
+    }
+  </button>
+</mat-dialog-actions>

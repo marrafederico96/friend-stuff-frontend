@@ -18,7 +18,9 @@ export class DashboardComponent {
   openDialog(): void {
     const dialogRef = this.dialog.open(ActivityComponent, {
       height: '400px',
-      width: '600px',
+      width: '400px',
+      autoFocus: true,
+      disableClose: true,
     });
   }
 }

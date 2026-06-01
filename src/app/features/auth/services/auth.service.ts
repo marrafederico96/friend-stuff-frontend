@@ -4,6 +4,7 @@ import { environment } from '../../../../environments/environment';
 import { LoginRequest, RegisterRequest, TokenResponse } from '../models/auth.model';
 import { Observable, tap } from 'rxjs';
 import { Result } from '../../../core/models/result.model';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -11,6 +12,7 @@ import { Result } from '../../../core/models/result.model';
 export class AuthService {
   private http = inject(HttpClient);
   private apiUrl = environment.apiUrl;
+  private router = inject(Router);
 
   isAuthenticated = signal<boolean>(false);
 
@@ -38,6 +40,19 @@ export class AuthService {
         localStorage.removeItem('token');
         this.checkAuthState();
       }),
+    );
+  }
+
+  localLogout() {
+    localStorage.removeItem('token');
+    this.router.navigate(['auth/login']);
+  }
+
+  refresh(): Observable<TokenResponse> {
+    return this.http.post<TokenResponse>(
+      `${this.apiUrl}/Auth/Refresh`,
+      {},
+      { withCredentials: true },
     );
   }
 

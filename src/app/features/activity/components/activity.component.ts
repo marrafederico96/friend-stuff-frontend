@@ -7,7 +7,7 @@ import {
   Validators,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { CreateActivityRequest } from '../models/activity.service';
+import { CreateActivityRequest } from '../models/activity.model';
 import { HttpErrorResponse } from '@angular/common/http';
 import { formatDate } from '@angular/common';
 
@@ -68,7 +68,6 @@ export class ActivityComponent {
       activityData.startDate = formatDate(activityData.startDate, 'yyyy-MM-dd', this.locale);
       activityData.endDate = formatDate(activityData.endDate, 'yyyy-MM-dd', this.locale);
 
-      console.log(activityData);
       this.activityService.create(activityData).subscribe({
         next: () => {
           this.isLoading.set(false);

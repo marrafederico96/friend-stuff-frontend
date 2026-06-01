@@ -10,4 +10,32 @@
   mat-card {
     width: 100%;
   }
+
+  .my-activities-container {
+    display: flex;
+    justify-content: stretch;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 20px;
+
+    mat-card {
+      width: 300px;
+
+      mat-card-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: start;
+      }
+
+      mat-card-actions {
+        justify-content: space-between;
+
+        button {
+          color: #ffb4ab;
+        }
+      }
+    }
+  }
 }

@@ -6,6 +6,15 @@ export interface CreateActivityRequest {
   endDate: string;
 }
 
+export interface UserActivitiesResponse {
+  publicId: string;
+  name: string;
+  description?: string;
+  type: string;
+  startDate: string;
+  endDate: string;
+}
+
 enum ActivtyType {
   Social,
   Sport,

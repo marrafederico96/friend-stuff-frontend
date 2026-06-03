@@ -1,4 +1,4 @@
-import { Component, inject, signal, LOCALE_ID, Inject } from '@angular/core';
+import { Component, inject, signal, LOCALE_ID, Inject, AfterViewInit } from '@angular/core';
 import { ActivityService } from '../services/activity.service';
 import {
   FormBuilder,
@@ -7,9 +7,10 @@ import {
   Validators,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { CreateActivityRequest } from '../models/activity.model';
+import { ActivityTypes, CreateActivityRequest } from '../models/activity.model';
 import { HttpErrorResponse } from '@angular/common/http';
 import { formatDate } from '@angular/common';
+import { ApiError } from '../../../core/models/result.model';
 
 //Material component
 import {
@@ -23,14 +24,15 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { provideNativeDateAdapter } from '@angular/material/core';
-import { ApiError } from '../../../core/models/result.model';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-activity',
   imports: [
     MatProgressSpinnerModule,
     MatFormFieldModule,
+    MatSelectModule,
     ReactiveFormsModule,
     MatInputModule,
     MatDatepickerModule,
@@ -44,19 +46,31 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
   templateUrl: './activity.component.html',
   styleUrl: './activity.component.scss',
 })
-export class ActivityComponent {
+export class ActivityComponent implements AfterViewInit {
   private activityService = inject(ActivityService);
   private formBuilder = inject(FormBuilder);
   readonly dialogRef = inject(MatDialogRef<ActivityComponent>);
 
   isLoading = signal<boolean>(false);
   error = signal<ApiError | null>(null);
+  activityTypes = signal<ActivityTypes[]>([]);
 
   constructor(@Inject(LOCALE_ID) public locale: string) {}
+
+  ngAfterViewInit(): void {
+    this.activityService.getActivityTypes().subscribe({
+      next: (response) => {
+        if (response.value) {
+          this.activityTypes.set(response.value);
+        }
+      },
+    });
+  }
 
   activityForm: FormGroup = this.formBuilder.group({
     name: ['', Validators.required],
     description: [''],
+    type: ['', Validators.required],
     startDate: ['', Validators.required],
     endDate: ['', Validators.required],
   });

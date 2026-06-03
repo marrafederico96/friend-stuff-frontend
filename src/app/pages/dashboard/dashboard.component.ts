@@ -9,10 +9,17 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [MatCardModule, MatButtonModule, RouterLink, MatProgressSpinnerModule],
+  imports: [
+    MatCardModule,
+    MatProgressBarModule,
+    MatButtonModule,
+    RouterLink,
+    MatProgressSpinnerModule,
+  ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
 })
@@ -22,9 +29,15 @@ export class DashboardComponent implements OnInit {
 
   userActivities = computed(() => this.activtyService.userActivities());
   isLoading = signal<string>('');
+  isMyActivitiesLoading = signal<boolean>(false);
 
   ngOnInit(): void {
-    this.activtyService.getUserActivities().subscribe();
+    this.isMyActivitiesLoading.set(true);
+    this.activtyService.getUserActivities().subscribe({
+      next: () => {
+        this.isMyActivitiesLoading.set(false);
+      },
+    });
   }
 
   delete(publicActivityId: string) {
@@ -38,7 +51,7 @@ export class DashboardComponent implements OnInit {
 
   openDialog(): void {
     const dialogRef = this.dialog.open(ActivityComponent, {
-      height: '400px',
+      height: '500px',
       width: '400px',
       autoFocus: true,
       disableClose: true,

@@ -10,6 +10,14 @@
       <input matInput placeholder="Activity descritpion (optional)" formControlName="description"/>
     </mat-form-field>
     <mat-form-field appearance="outline">
+      <mat-label>Type</mat-label>
+      <mat-select formControlName="type">
+         @for (type of activityTypes(); track $index) {
+           <mat-option  [value]="type.normalizedName">{{type.name}}</mat-option>
+         }
+       </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
         <mat-label>Enter a date range</mat-label>
       <mat-date-range-input [rangePicker]="picker">
         <input matStartDate placeholder="Start date" formControlName="startDate">

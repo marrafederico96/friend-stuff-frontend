@@ -38,12 +38,17 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
                 }),
               );
             }),
+            catchError((error: HttpErrorResponse) => {
+              if (error.status === 401) {
+                authService.localLogout();
+              }
+              return throwError(() => error);
+            }),
           );
         }
         return throwError(() => error);
       }),
     );
   }
-
   return next(req);
 };

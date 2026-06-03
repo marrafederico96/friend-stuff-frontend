@@ -1,7 +1,7 @@
 export interface CreateActivityRequest {
   name: string;
   description?: string;
-  type: ActivtyType;
+  type: string;
   startDate: string;
   endDate: string;
 }
@@ -15,9 +15,8 @@ export interface UserActivitiesResponse {
   endDate: string;
 }
 
-enum ActivtyType {
-  Social,
-  Sport,
-  Game,
-  Other,
+export interface ActivityTypes {
+  publicId: string;
+  name: string;
+  normalizedName: string;
 }

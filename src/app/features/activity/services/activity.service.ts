@@ -1,7 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { environment } from '../../../../environments/environment';
-import { CreateActivityRequest, UserActivitiesResponse } from '../models/activity.model';
+import {
+  ActivityTypes,
+  CreateActivityRequest,
+  UserActivitiesResponse,
+} from '../models/activity.model';
 import { Observable, tap } from 'rxjs';
 import { Result } from '../../../core/models/result.model';
 
@@ -38,5 +42,9 @@ export class ActivityService {
           this.userActivities.set(response.value ?? []);
         }),
       );
+  }
+
+  getActivityTypes(): Observable<Result<ActivityTypes[]>> {
+    return this.http.get<Result<ActivityTypes[]>>(`${this.apiUrl}/Activity/GetActivityTypes`);
   }
 }

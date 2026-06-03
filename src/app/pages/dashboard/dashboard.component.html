@@ -7,39 +7,43 @@
     </mat-card-header>
 
     <mat-card-content class="my-activities-container">
-      @for(act of userActivities(); track $index) {
-        <mat-card appearance="outlined">
-          <mat-card-header>
-            <mat-card-title-group>
-              <mat-card-title>
-                {{act.name}}
-              </mat-card-title>
-              <mat-card-subtitle>
-                {{act.startDate}} - {{act.endDate}}
-              </mat-card-subtitle>
-            </mat-card-title-group>
-          </mat-card-header>
-          <mat-card-content>
-            <span>@if(act.description) {
-              {{act?.description}}
-            }@else {
-              No description
-            }</span>
-            <span>{{act.type}}</span>
-          </mat-card-content>
-          <mat-card-actions>
-            <button matButton (click)="delete(act.publicId)">
-              @if(act.publicId === isLoading()) {
-                <mat-spinner diameter=20></mat-spinner>
+      @if(isMyActivitiesLoading()) {
+        <mat-progress-bar mode="query"></mat-progress-bar>
+      }@else {
+        @for(act of userActivities(); track $index) {
+          <mat-card appearance="outlined">
+            <mat-card-header>
+              <mat-card-title-group>
+                <mat-card-title>
+                  {{act.name}}
+                </mat-card-title>
+                <mat-card-subtitle>
+                  {{act.startDate}} - {{act.endDate}}
+                </mat-card-subtitle>
+              </mat-card-title-group>
+            </mat-card-header>
+            <mat-card-content>
+              <span>@if(act.description) {
+                {{act?.description}}
               }@else {
-                Delete
-              }
-            </button>
-            <a matButton [routerLink]="['activity', act.publicId]">Details</a>
-          </mat-card-actions>
-        </mat-card>
-      }@empty {
-        <p>No activity found</p>
+                No description
+              }</span>
+              <span>{{act.type}}</span>
+            </mat-card-content>
+            <mat-card-actions>
+              <button matButton (click)="delete(act.publicId)">
+                @if(act.publicId === isLoading()) {
+                  <mat-spinner diameter=20></mat-spinner>
+                }@else {
+                  Delete
+                }
+              </button>
+              <a matButton [routerLink]="['activity', act.publicId]">Details</a>
+            </mat-card-actions>
+          </mat-card>
+        }@empty {
+          <p>No activity found</p>
+        }
       }
     </mat-card-content>
   </mat-card>

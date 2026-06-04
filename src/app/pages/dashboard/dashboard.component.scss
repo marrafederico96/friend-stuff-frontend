@@ -22,13 +22,6 @@
     mat-card {
       width: 300px;
 
-      mat-card-content {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: start;
-      }
-
       mat-card-actions {
         justify-content: space-between;
 

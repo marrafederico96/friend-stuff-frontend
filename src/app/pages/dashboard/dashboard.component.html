@@ -1,59 +1,54 @@
-  <mat-card>
-    <mat-card-header >
-      <mat-card-title-group>
-        <mat-card-title>My Activities</mat-card-title>
-        <button matButton="tonal" (click)="openDialog()">Create</button>
-      </mat-card-title-group>
-    </mat-card-header>
+<mat-card>
+  <mat-card-header>
+    <mat-card-title-group>
+      <mat-card-title>My Activities</mat-card-title>
+      <button matButton="tonal" (click)="openDialog()">Create</button>
+    </mat-card-title-group>
+  </mat-card-header>
 
-    <mat-card-content class="my-activities-container">
-      @if(isMyActivitiesLoading()) {
-        <mat-progress-bar mode="query"></mat-progress-bar>
-      }@else {
-        @for(act of userActivities(); track $index) {
-          <mat-card appearance="outlined">
-            <mat-card-header>
-              <mat-card-title-group>
-                <mat-card-title>
-                  {{act.name}}
-                </mat-card-title>
-                <mat-card-subtitle>
-                  {{act.startDate}} - {{act.endDate}}
-                </mat-card-subtitle>
-              </mat-card-title-group>
-            </mat-card-header>
-            <mat-card-content>
-              <span>@if(act.description) {
-                {{act?.description}}
-              }@else {
-                No description
-              }</span>
-              <span>{{act.type}}</span>
-            </mat-card-content>
-            <mat-card-actions>
-              <button matButton (click)="delete(act.publicId)">
-                @if(act.publicId === isLoading()) {
-                  <mat-spinner diameter=20></mat-spinner>
-                }@else {
-                  Delete
-                }
-              </button>
-              <a matButton [routerLink]="['activity', act.publicId]">Details</a>
-            </mat-card-actions>
-          </mat-card>
-        }@empty {
-          <p>No activity found</p>
-        }
-      }
-    </mat-card-content>
-  </mat-card>
+  <mat-card-content class="my-activities-container">
+    @if(isMyActivitiesLoading()) {
+    <mat-progress-bar mode="query"></mat-progress-bar>
+    }@else {
+    @for(act of userActivities(); track $index) {
+    <mat-card appearance="outlined">
+      <mat-card-header>
+        <mat-card-title-group>
+          <mat-card-title>
+            {{act.name}}
+          </mat-card-title>
+          <mat-card-subtitle>
+            {{act.startDate}} - {{act.endDate}}
+          </mat-card-subtitle>
+        </mat-card-title-group>
+      </mat-card-header>
+      <mat-card-content>
+        <span>{{act.activityType}}</span>
+      </mat-card-content>
+      <mat-card-actions>
+        <button matButton (click)="delete(act.publicId)">
+          @if(act.publicId === isLoading()) {
+          <mat-spinner diameter=20></mat-spinner>
+          }@else {
+          Delete
+          }
+        </button>
+        <a matButton [routerLink]="['activity', act.publicId]">Details</a>
+      </mat-card-actions>
+    </mat-card>
+    }@empty {
+    <p>No activity found</p>
+    }
+    }
+  </mat-card-content>
+</mat-card>
 
-  <mat-card>
-    <mat-card-header >
-        <mat-card-title>Balance</mat-card-title>
-    </mat-card-header>
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Balance</mat-card-title>
+  </mat-card-header>
 
-    <mat-card-content>
-      LA MIA SITUAZIONE - TO DO
-    </mat-card-content>
-  </mat-card>
+  <mat-card-content>
+    LA MIA SITUAZIONE - TO DO
+  </mat-card-content>
+</mat-card>

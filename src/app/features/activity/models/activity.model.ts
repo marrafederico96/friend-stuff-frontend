@@ -10,7 +10,7 @@ export interface UserActivitiesResponse {
   publicId: string;
   name: string;
   description?: string;
-  type: string;
+  activityType: string;
   startDate: string;
   endDate: string;
 }

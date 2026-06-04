@@ -13,3 +13,8 @@ export interface RegisterRequest {
 export interface TokenResponse {
   jwt: string;
 }
+
+export interface TokenDecoded {
+  name: string;
+  email: string;
+}

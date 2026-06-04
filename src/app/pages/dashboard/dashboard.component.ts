@@ -1,15 +1,15 @@
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { ActivityComponent } from '../../features/activity/components/activity.component';
 import { ActivityService } from '../../features/activity/services/activity.service';
-import { RouterLink } from '@angular/router';
-import { UserActivitiesResponse } from '../../features/activity/models/activity.model';
 
 //Material component
-import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 import { MatDialog } from '@angular/material/dialog';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { AuthService } from '../../features/auth/services/auth.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -26,8 +26,10 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 export class DashboardComponent implements OnInit {
   readonly dialog = inject(MatDialog);
   private activtyService = inject(ActivityService);
+  private authService = inject(AuthService);
 
   userActivities = computed(() => this.activtyService.userActivities());
+  tokenDecoded = computed(() => this.authService.tokenDecoded());
   isLoading = signal<string>('');
   isMyActivitiesLoading = signal<boolean>(false);
 

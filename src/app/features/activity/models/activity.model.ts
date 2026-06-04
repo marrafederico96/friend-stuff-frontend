@@ -6,10 +6,11 @@ export interface CreateActivityRequest {
   endDate: string;
 }
 
-export interface UserActivitiesResponse {
+export interface UserActivityResponse {
   publicId: string;
   name: string;
   description?: string;
+  adminUsername: string;
   activityType: string;
   startDate: string;
   endDate: string;

@@ -1,13 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
+import { Observable, tap } from 'rxjs';
 import { environment } from '../../../../environments/environment';
+import { Result } from '../../../core/models/result.model';
 import {
   ActivityTypes,
   CreateActivityRequest,
-  UserActivitiesResponse,
+  UserActivityResponse,
 } from '../models/activity.model';
-import { Observable, tap } from 'rxjs';
-import { Result } from '../../../core/models/result.model';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +16,7 @@ export class ActivityService {
   private http = inject(HttpClient);
   private apiUrl = environment.apiUrl;
 
-  userActivities = signal<UserActivitiesResponse[]>([]);
+  userActivities = signal<UserActivityResponse[]>([]);
 
   create(data: CreateActivityRequest): Observable<Result> {
     return this.http
@@ -34,9 +34,9 @@ export class ActivityService {
       .pipe(tap(() => this.getUserActivities().subscribe()));
   }
 
-  getUserActivities(): Observable<Result<UserActivitiesResponse[]>> {
+  getUserActivities(): Observable<Result<UserActivityResponse[]>> {
     return this.http
-      .get<Result<UserActivitiesResponse[]>>(`${this.apiUrl}/Activity/GetUserActivities`)
+      .get<Result<UserActivityResponse[]>>(`${this.apiUrl}/Activity/GetUserActivities`)
       .pipe(
         tap((response) => {
           this.userActivities.set(response.value ?? []);

@@ -1,10 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
-import { environment } from '../../../../environments/environment';
-import { LoginRequest, RegisterRequest, TokenResponse } from '../models/auth.model';
-import { Observable, tap } from 'rxjs';
-import { Result } from '../../../core/models/result.model';
 import { Router } from '@angular/router';
+import { jwtDecode } from 'jwt-decode';
+import { Observable, tap } from 'rxjs';
+import { environment } from '../../../../environments/environment';
+import { Result } from '../../../core/models/result.model';
+import { LoginRequest, RegisterRequest, TokenDecoded, TokenResponse } from '../models/auth.model';
 
 @Injectable({
   providedIn: 'root',
@@ -15,6 +16,7 @@ export class AuthService {
   private router = inject(Router);
 
   isAuthenticated = signal<boolean>(false);
+  tokenDecoded = signal<TokenDecoded | undefined>(undefined);
 
   register(data: RegisterRequest): Observable<Result> {
     return this.http.post<Result>(`${this.apiUrl}/Auth/Register`, data);
@@ -46,6 +48,8 @@ export class AuthService {
   localLogout() {
     localStorage.removeItem('token');
     this.router.navigate(['auth/login']);
+    this.isAuthenticated.set(false);
+    this.tokenDecoded.set(undefined);
   }
 
   refresh(): Observable<TokenResponse> {
@@ -60,8 +64,10 @@ export class AuthService {
     var token = localStorage.getItem('token');
     if (token) {
       this.isAuthenticated.set(true);
+      this.tokenDecoded.set(jwtDecode(token));
     } else {
       this.isAuthenticated.set(false);
+      this.tokenDecoded.set(undefined);
     }
   }
 }

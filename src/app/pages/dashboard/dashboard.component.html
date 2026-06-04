@@ -26,6 +26,7 @@
         <span>{{act.activityType}}</span>
       </mat-card-content>
       <mat-card-actions>
+        @if (tokenDecoded()?.name === act.adminUsername) {
         <button matButton (click)="delete(act.publicId)">
           @if(act.publicId === isLoading()) {
           <mat-spinner diameter=20></mat-spinner>
@@ -33,11 +34,15 @@
           Delete
           }
         </button>
+        }@else {
+        <div></div>
+        }
+
         <a matButton [routerLink]="['activity', act.publicId]">Details</a>
       </mat-card-actions>
     </mat-card>
     }@empty {
-    <p>No activity found</p>
+    <p>No activities found</p>
     }
     }
   </mat-card-content>

@@ -15,7 +15,7 @@
             @for (participant of activityParticpants(); track $index) {
             @if (participant === activityDetails()?.activity?.adminUsername) {
             <mat-chip class="admin-chip">{{participant}}</mat-chip>
-            }@else {
+            }@else if(loggedUsername() === activityDetails()?.activity?.adminUsername) {
             <mat-chip-row>
                 {{participant}}
                 <button matChipRemove (click)="removeParticipant(participant)"
@@ -29,6 +29,8 @@
                     }
                 </button>
             </mat-chip-row>
+            }@else {
+            <mat-chip>{{participant}}</mat-chip>
             }
             }
         </mat-chip-set>
@@ -76,8 +78,26 @@
                 <mat-chip-set>
                     @for (part of expense.participants; track $index) {
                     @if (expense.payerUsername !== part) {
+                    @if (expense.payerUsername === loggedUsername()) {
+                    <mat-chip-row>
+                        {{part}}
+                        <button matChipRemove (click)="removeExpenseParticipant(part,expense.expensePublicId)"
+                            [disabled]="isExpenseParticipantRemove() === part">
+                            @if (isExpenseParticipantRemove() === part) {
+                            <mat-spinner diameter="10"></mat-spinner>
+                            }@else {
+                            <mat-icon>
+                                cancel
+                            </mat-icon>
+                            }
+                        </button>
+                    </mat-chip-row>
+                    } @else {
+
                     <mat-chip>{{part}}</mat-chip>
                     }
+                    }
+
                     }
                 </mat-chip-set>
             </mat-card-content>

@@ -6,6 +6,7 @@ import { Result } from '../../../core/models/result.model';
 import {
   AddExpenseParticipantRequest,
   CreateExpenseRequest,
+  RemoveExpenseParicipantRequest,
   RemoveParicipantRequest,
   UserActivityDetailsResponse,
 } from '../models/activity-details.model';
@@ -50,9 +51,13 @@ export class ActivityDetailsService {
       .delete<Result>(`${this.apiUrl}/Activity/RemoveParticipant`, { body: data })
       .pipe(
         tap(() => {
-          this.getActivityParticipants(data.publicActivityId).subscribe();
+          this.getActivityDetail(data.publicActivityId).subscribe();
         }),
       );
+  }
+
+  removeExpenseParticipant(data: RemoveExpenseParicipantRequest): Observable<Result> {
+    return this.http.delete<Result>(`${this.apiUrl}/Expense/RemoveParticipant`, { body: data });
   }
 
   getActivityParticipants(publicId: string): Observable<Result<string[]>> {

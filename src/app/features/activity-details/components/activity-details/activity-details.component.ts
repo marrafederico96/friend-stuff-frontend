@@ -1,17 +1,29 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject, OnInit } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 
 // Material component
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatChipSet, MatChipsModule } from '@angular/material/chips';
 import { MatDialog } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ActivatedRoute } from '@angular/router';
+import { RemoveParicipantRequest } from '../../models/activity-details.model';
 import { ActivityDetailsService } from '../../services/activity-details.service';
 import { ExpenseDialog } from '../expense-dialog/expense-dialog.component';
 
 @Component({
   selector: 'app-activity-details',
-  imports: [MatCardModule, CommonModule, MatButtonModule],
+  imports: [
+    MatIconModule,
+    MatCardModule,
+    MatChipsModule,
+    CommonModule,
+    MatProgressSpinnerModule,
+    MatButtonModule,
+    MatChipSet,
+  ],
   templateUrl: './activity-details.component.html',
   styleUrl: './activity-details.component.scss',
 })
@@ -21,11 +33,35 @@ export class ActivityDetailsComponent implements OnInit {
   readonly dialog = inject(MatDialog);
 
   activityDetails = computed(() => this.activityDetailsService.activityDetails());
+  activityParticpants = computed(() => this.activityDetailsService.activityParticipants());
+  activityPublicId: string = '';
+  isLoading = signal<string>('');
+  isParticipantRemove = signal<string>('');
+
+  totalExpense = computed(() => {
+    var total: number = 0;
+
+    this.activityDetails()?.expenses.forEach((e) => {
+      total += e.amount;
+    });
+    return total;
+  });
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe({
       next: (data) => {
-        this.activityDetailsService.getActivityDetail(data['publicActivityId']).subscribe();
+        this.activityPublicId = data['publicActivityId'];
+        this.activityDetailsService.getActivityDetail(this.activityPublicId).subscribe();
+      },
+    });
+  }
+
+  delete(publicId: string) {
+    this.isLoading.set(publicId);
+    this.activityDetailsService.deleteExpense(publicId).subscribe({
+      next: () => {
+        this.activityDetailsService.getActivityDetail(this.activityPublicId).subscribe();
+        this.isLoading.set('');
       },
     });
   }
@@ -36,6 +72,24 @@ export class ActivityDetailsComponent implements OnInit {
       width: '400px',
       autoFocus: true,
       disableClose: true,
+    });
+  }
+
+  removeParticipant(username: string) {
+    this.isParticipantRemove.set(username);
+
+    const data: RemoveParicipantRequest = {
+      publicActivityId: this.activityPublicId,
+      username: username,
+    };
+
+    this.activityDetailsService.removeParticipant(data).subscribe({
+      next: () => {
+        this.isParticipantRemove.set('');
+      },
+      error: () => {
+        this.isParticipantRemove.set('');
+      },
     });
   }
 }

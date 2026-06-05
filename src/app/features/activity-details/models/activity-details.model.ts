@@ -18,3 +18,8 @@ export interface CreateExpenseRequest {
   amount: number;
   activityPublicId: string;
 }
+
+export interface RemoveParicipantRequest {
+  username: string;
+  publicActivityId: string;
+}

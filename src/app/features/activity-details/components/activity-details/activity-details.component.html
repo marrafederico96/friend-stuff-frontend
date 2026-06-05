@@ -3,19 +3,42 @@
         <mat-card-title-group>
             <mat-card-title>{{activityDetails()?.activity?.name}} ({{activityDetails()?.activity?.startDate}} -
                 {{activityDetails()?.activity?.endDate}})</mat-card-title>
+            <button matButton="filled">Add Participant</button>
             <mat-card-subtitle>
                 <p>{{activityDetails()?.activity?.description}}</p>
+                <p>Total: <span class="amount">{{totalExpense() | currency}}</span></p>
             </mat-card-subtitle>
         </mat-card-title-group>
     </mat-card-header>
     <mat-card-content>
+        <mat-chip-set>
+            @for (participant of activityParticpants(); track $index) {
+            @if (participant === activityDetails()?.activity?.adminUsername) {
+            <mat-chip class="admin-chip">{{participant}}</mat-chip>
+            }@else {
+            <mat-chip-row>
+                {{participant}}
+                <button matChipRemove (click)="removeParticipant(participant)"
+                    [disabled]="isParticipantRemove() === participant">
+                    @if (isParticipantRemove() === participant) {
+                    <mat-spinner diameter="10"></mat-spinner>
+                    }@else {
+                    <mat-icon>
+                        cancel
+                    </mat-icon>
+                    }
+                </button>
+            </mat-chip-row>
+            }
+            }
+        </mat-chip-set>
     </mat-card-content>
 </mat-card>
 
 <mat-card>
-    <mat-card-header class="expense-header">
+    <mat-card-header class=" expense-header">
         <mat-card-title>EXPENSES</mat-card-title>
-        <button matButton="tonal" (click)="openDialog()">Create</button>
+        <button matButton="filled" (click)="openDialog()">Create</button>
     </mat-card-header>
     <mat-card-content class="expenses-container">
         @for (expense of activityDetails()?.expenses; track $index) {
@@ -23,11 +46,27 @@
             <mat-card-header>
                 <mat-card-title-group>
                     <mat-card-title>{{expense.expenseName}}</mat-card-title>
-                    <mat-card-subtitle>{{expense.expenseDescription}}</mat-card-subtitle>
+                    <div>
+                        <button class="btn-delete" matButton (click)="delete(expense.expensePublicId)">
+                            @if(isLoading() === expense.expensePublicId) {
+                            <mat-spinner diameter="20"></mat-spinner>
+                            }@else {
+                            Delete}
+                        </button>
+                        <button matButton>Add Debtor</button>
+                    </div>
+                    <mat-card-subtitle>
+                        @if(expense.expenseDescription != undefined)
+                        {
+                        <p>{{expense.expenseDescription}}</p>
+                        }@else {
+                        <p>No description</p>
+                        }
+                    </mat-card-subtitle>
                 </mat-card-title-group>
             </mat-card-header>
             <mat-card-content>
-                {{expense.amount | currency}}
+                <span class="amount">{{expense.amount | currency}}</span>
             </mat-card-content>
         </mat-card>
         }@empty {

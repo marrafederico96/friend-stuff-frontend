@@ -3,7 +3,7 @@
         <mat-card-title-group>
             <mat-card-title>{{activityDetails()?.activity?.name}} ({{activityDetails()?.activity?.startDate}} -
                 {{activityDetails()?.activity?.endDate}})</mat-card-title>
-            <button matButton="filled">Add Participant</button>
+            <button matButton="filled" (click)="openParticipantDialog()">Add Participant</button>
             <mat-card-subtitle>
                 <p>{{activityDetails()?.activity?.description}}</p>
                 <p>Total: <span class="amount">{{totalExpense() | currency}}</span></p>
@@ -38,7 +38,7 @@
 <mat-card>
     <mat-card-header class=" expense-header">
         <mat-card-title>EXPENSES</mat-card-title>
-        <button matButton="filled" (click)="openDialog()">Create</button>
+        <button matButton="filled" (click)="openExpenseDialog()">Create</button>
     </mat-card-header>
     <mat-card-content class="expenses-container">
         @for (expense of activityDetails()?.expenses; track $index) {
@@ -67,7 +67,13 @@
             </mat-card-header>
             <mat-card-content>
                 <span class="amount">{{expense.amount | currency}}</span>
+                <mat-chip-set>
+                    @for (part of expense.participants; track $index) {
+                    <mat-chip>{{part}}</mat-chip>
+                    }
+                </mat-chip-set>
             </mat-card-content>
+
         </mat-card>
         }@empty {
         <p>No Expenses</p>

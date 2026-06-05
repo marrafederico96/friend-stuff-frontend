@@ -20,7 +20,7 @@
 </mat-dialog-content>
 <mat-dialog-actions>
     <button matButton (click)="close()">Cancel</button>
-    <button matButton="tonal" (click)="onSubmit()" [disabled]="">
+    <button matButton="tonal" (click)="onSubmit()" [disabled]="isLoading()">
         @if(isLoading()) {
         <mat-spinner diameter=20></mat-spinner>
         } @else {

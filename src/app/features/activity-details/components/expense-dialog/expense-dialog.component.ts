@@ -44,12 +44,12 @@ import { ActivityDetailsService } from '../../services/activity-details.service'
   templateUrl: './expense-dialog.component.html',
   styleUrl: './expense-dialog.component.scss',
 })
-export class ExpenseDialog {
+export class ExpenseDialogComponent {
   private formBuilder = inject(FormBuilder);
   private activityDetailsService = inject(ActivityDetailsService);
   private activatedRoute = inject(ActivatedRoute);
 
-  readonly dialogRef = inject(MatDialogRef<ExpenseDialog>);
+  readonly dialogRef = inject(MatDialogRef<ExpenseDialogComponent>);
 
   isLoading = signal<boolean>(false);
   error = signal<ApiError | null>(null);

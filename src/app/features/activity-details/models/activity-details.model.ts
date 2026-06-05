@@ -10,6 +10,7 @@ export interface ExpenseInfoResponse {
   expenseDescription?: string;
   amount: number;
   expenseName: string;
+  participants: string[];
 }
 
 export interface CreateExpenseRequest {

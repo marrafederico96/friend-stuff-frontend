@@ -1,0 +1,26 @@
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>Balance</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <span [className]="totalBalance() >= 0 ? 'positive balance-text':'negative balance-text'">{{totalBalance() |
+            currency}}</span>
+        <mat-chip-set>
+            @for (debt of balanceInfo(); track $index) {
+            <mat-chip>
+                @if(debt.amount < 0) {You owe <span class="negative bold">{{ debt.amount.toString().replace("-","") |
+                    currency }}</span>
+                    to
+                    <span class="bold">{{debt.username}}</span>
+                    } @else {
+                    <span class="bold">{{debt.username}}</span> owes <span class="positive bold">{{debt.amount |
+                        currency}}</span>
+                    to
+                    you
+                    }
+            </mat-chip>
+            } @empty {
+            <mat-chip>No debts</mat-chip> }
+        </mat-chip-set>
+    </mat-card-content>
+</mat-card>

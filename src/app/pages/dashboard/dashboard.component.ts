@@ -10,6 +10,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AuthService } from '../../features/auth/services/auth.service';
+import { UserProfileComponent } from "../../features/user-profile/components/user-profile.component";
 
 @Component({
   selector: 'app-dashboard',
@@ -19,7 +20,8 @@ import { AuthService } from '../../features/auth/services/auth.service';
     MatButtonModule,
     RouterLink,
     MatProgressSpinnerModule,
-  ],
+    UserProfileComponent
+],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
 })

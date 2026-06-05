@@ -1,0 +1,22 @@
+:host {
+  width: 100%;
+
+  .positive {
+    color: greenyellow;
+  }
+
+  .negative {
+    color: #ffb4ab;
+  }
+
+  .balance-text {
+    display: block;
+    font-size: 1.8rem;
+    margin: 30px 0;
+    font-weight: 800;
+  }
+
+  .bold {
+    font-weight: 800;
+  }
+}

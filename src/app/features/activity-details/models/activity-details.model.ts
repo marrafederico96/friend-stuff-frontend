@@ -9,6 +9,7 @@ export interface ExpenseInfoResponse {
   expensePublicId: string;
   expenseDescription?: string;
   amount: number;
+  payerUsername: string;
   expenseName: string;
   participants: string[];
 }
@@ -23,4 +24,10 @@ export interface CreateExpenseRequest {
 export interface RemoveParicipantRequest {
   username: string;
   publicActivityId: string;
+}
+
+export interface AddExpenseParticipantRequest {
+  usernames: string[];
+  publicActivityId: string;
+  publicExpenseId: string;
 }

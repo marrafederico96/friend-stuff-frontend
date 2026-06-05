@@ -1,29 +1,14 @@
 import { Component, inject, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import {
-  MatDialogActions,
-  MatDialogContent,
-  MatDialogRef,
-  MatDialogTitle,
-} from '@angular/material/dialog';
-import { MatError, MatFormFieldModule, MatLabel } from '@angular/material/form-field';
+import { MatDialogRef, MatDialogActions, MatDialogContent } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { ApiError } from '../../../../core/models/result.model';
+import { ApiError } from '../../../core/models/result.model';
 
 @Component({
   selector: 'app-participant-dialog',
-  imports: [
-    MatButtonModule,
-    MatDialogContent,
-    MatInputModule,
-    MatDialogTitle,
-    MatFormFieldModule,
-    MatLabel,
-    MatError,
-    MatDialogActions,
-    MatProgressSpinnerModule,
-  ],
+  imports: [MatButtonModule, MatInputModule, MatFormFieldModule, MatProgressSpinnerModule, MatDialogActions, MatDialogContent],
   templateUrl: './participant-dialog.component.html',
   styleUrl: './participant-dialog.component.scss',
 })

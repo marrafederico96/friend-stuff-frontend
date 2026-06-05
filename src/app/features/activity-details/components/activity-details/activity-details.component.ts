@@ -9,10 +9,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ActivatedRoute } from '@angular/router';
+import { ExpenseParticipantDialogComponent } from '../../expense-participant-dialog/expense-participant-dialog.component';
 import { RemoveParicipantRequest } from '../../models/activity-details.model';
+import { ParticipantDialogComponent } from '../../participant-dialog/participant-dialog.component';
 import { ActivityDetailsService } from '../../services/activity-details.service';
 import { ExpenseDialogComponent } from '../expense-dialog/expense-dialog.component';
-import { ParticipantDialogComponent } from '../participant-dialog/participant-dialog.component';
 
 @Component({
   selector: 'app-activity-details',
@@ -53,7 +54,6 @@ export class ActivityDetailsComponent implements OnInit {
       next: (data) => {
         this.activityPublicId = data['publicActivityId'];
         this.activityDetailsService.getActivityDetail(this.activityPublicId).subscribe();
-        console.log(this.activityDetails());
       },
     });
   }
@@ -83,6 +83,16 @@ export class ActivityDetailsComponent implements OnInit {
       width: '400px',
       autoFocus: true,
       disableClose: true,
+    });
+  }
+
+  openExpenseParticipantDialog(expenseId: string, payerUsername: string): void {
+    const dialogRef = this.dialog.open(ExpenseParticipantDialogComponent, {
+      height: '400px',
+      width: '400px',
+      autoFocus: true,
+      disableClose: true,
+      data: { expenseId: expenseId, payerUsername: payerUsername },
     });
   }
 

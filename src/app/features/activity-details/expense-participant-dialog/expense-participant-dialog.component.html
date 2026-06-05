@@ -1,0 +1,32 @@
+<h2 mat-dialog-title>Add Expense Participant</h2>
+<mat-dialog-content>
+    <form [formGroup]="expenseParticipantForm">
+        <div class="participants-container">
+            <label class="mat-body-2" style="display: block; margin-bottom: 8px;">
+                Select expense participants:
+            </label>
+
+            <mat-chip-listbox selectable multiple (change)="onSelectionChange($event)">
+                @for (actPart of activityParticipants(); track actPart) {
+                <mat-chip-option [value]="actPart" color="accent">
+                    {{actPart}}
+                </mat-chip-option>
+                }
+            </mat-chip-listbox>
+        </div>
+
+        @if(error()) {
+        <mat-error style="margin-top: 16px; display: block;">{{error()?.message}}</mat-error>
+        }
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button matButton (click)="close()">Cancel</button>
+    <button matButton="tonal" (click)="onSubmit()" [disabled]="isLoading() || usernamesValue.length === 0">
+        @if(isLoading()) {
+        <mat-spinner diameter=20></mat-spinner>
+        } @else {
+        Add
+        }
+    </button>
+</mat-dialog-actions>

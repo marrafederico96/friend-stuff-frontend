@@ -1,0 +1,48 @@
+name: Deploy Angular to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: 'pages'
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout codice
+        uses: actions/checkout@v4
+
+      - name: Configura Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: 'npm'
+
+      - name: Installa dipendenze
+        run: npm ci
+
+      - name: Build dell'app Angular
+        run: npm run build -- --configuration production --base-href /${{ github.event.repository.name }}/
+
+      - name: Configura Pages
+        uses: actions/configure-pages@v4
+
+      - name: Carica l'output (Artifact)
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist/friend-stuff-frontend/browser
+
+      - name: Deploy su GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

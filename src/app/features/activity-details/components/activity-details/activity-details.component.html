@@ -49,6 +49,7 @@
                 <mat-card-title-group>
                     <mat-card-title>{{expense.expenseName}}</mat-card-title>
                     <div>
+                        @if (expense.payerUsername === loggedUsername()) {
                         <button class="btn-delete" matButton (click)="delete(expense.expensePublicId)">
                             @if(isLoading() === expense.expensePublicId) {
                             <mat-spinner diameter="20"></mat-spinner>
@@ -58,22 +59,22 @@
                         @if (activityParticpants().length>1) {
                         <button matButton
                             (click)="openExpenseParticipantDialog(expense.expensePublicId,expense.payerUsername)">Add
-                            Debtor</button>
+                            Debtor</button> }
                         }
-
                     </div>
                     <mat-card-subtitle>
-                        @if(expense.expenseDescription != undefined)
-                        {
-                        <p>{{expense.expenseDescription}}</p>
-                        }@else {
-                        <p>No description</p>
-                        }
+
                         <p>Payed by <mat-chip>{{expense.payerUsername}}</mat-chip></p>
                     </mat-card-subtitle>
                 </mat-card-title-group>
             </mat-card-header>
             <mat-card-content>
+                @if(expense.expenseDescription != undefined)
+                {
+                <p>{{expense.expenseDescription}}</p>
+                }@else {
+                <p>No description</p>
+                }
                 <span class="amount">{{expense.amount | currency}}</span>
                 <mat-chip-set>
                     @for (part of expense.participants; track $index) {

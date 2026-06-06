@@ -38,5 +38,6 @@ export class UserProfileComponent implements OnInit {
         this.balanceIsLoading.set(false);
       },
     });
+    this.userProfileService.getPersonalBalance().subscribe();
   }
 }

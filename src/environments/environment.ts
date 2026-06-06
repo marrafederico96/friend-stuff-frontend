@@ -1,3 +1,3 @@
 export const environment = {
-  apiUrl: '',
+  apiUrl: 'https://friend-stuff-backend-5624.onrender.com/api',
 };

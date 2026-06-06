@@ -3,15 +3,12 @@
         <mat-card-title>Balance</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-        <!-- Ho aggiunto la label in inglese e la pipe currency -->
         <p class="personal-balance">Personal expenses: <strong>{{personalBalance() | currency}}</strong></p>
 
-        <!-- Mantenuto il tuo span originale con l'aggiunta di una label esplicativa -->
         <span [className]="totalBalance() >= 0 ? 'positive balance-text':'negative balance-text'">
             Total Balance: {{totalBalance() | currency}}
         </span>
 
-        <!-- Classe aggiunta al set per incolonnare le chip nel CSS -->
         <mat-chip-set class="debts-chip-list">
             @for (debt of balanceInfo(); track $index) {
             <mat-chip [class]="debt.amount < 0 ? 'chip-owe' : 'chip-owed'">

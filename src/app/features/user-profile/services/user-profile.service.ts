@@ -26,7 +26,7 @@ export class UserProfileService {
   }
 
   getPersonalBalance(): Observable<Result<number>> {
-    return this.http.get<Result<number>>(`${this.apiUrl}/User/GetPersonalBalance`).pipe(
+    return this.http.get<Result<number>>(`${this.apiUrl}/User/PersonalBalance`).pipe(
       tap((response) => {
         if (response.value) {
           this.personalBalance.set(response.value);

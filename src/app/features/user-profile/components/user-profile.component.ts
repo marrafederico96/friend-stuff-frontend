@@ -5,10 +5,10 @@ import { UserProfileService } from '../services/user-profile.service';
 // Material component
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
-
+import { MatIconModule } from '@angular/material/icon';
 @Component({
   selector: 'app-user-profile',
-  imports: [MatCardModule, CommonModule, MatChipsModule],
+  imports: [MatCardModule, MatIconModule, CommonModule, MatChipsModule],
   templateUrl: './user-profile.component.html',
   styleUrl: './user-profile.component.scss',
 })
@@ -16,6 +16,7 @@ export class UserProfileComponent implements OnInit {
   private userProfileService = inject(UserProfileService);
 
   balanceInfo = computed(() => this.userProfileService.balanceInfo());
+  personalBalance = computed(() => this.userProfileService.personalBalance());
 
   totalBalance = computed(() => {
     var totalAmount = 0;

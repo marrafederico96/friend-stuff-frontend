@@ -1,8 +1,27 @@
-form {
+:host {
   width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  height: 100%;
   align-items: stretch;
   padding: 10px 0;
+
+  mat-error {
+    margin-bottom: 10px;
+  }
+
+  mat-dialog-content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+
+    mat-form-field {
+      padding: 10px 0;
+    }
+  }
+  mat-chip-option {
+    margin-bottom: 10px;
+  }
 }

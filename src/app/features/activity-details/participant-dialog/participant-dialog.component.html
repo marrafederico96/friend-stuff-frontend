@@ -1,22 +1,42 @@
-<h2 mat-dialog-title>Add Participant</h2>
+<h2 mat-dialog-title>Add Participants</h2>
 <mat-dialog-content>
-    <form>
-        <mat-form-field appearance="outline">
-            <mat-label>Username</mat-label>
-            <input matInput required placeholder="Username" formControlName="username" />
-        </mat-form-field>
-        @if(error()) {
-        <mat-error>{{error()?.message}}</mat-error>
+    <mat-form-field appearance="outline">
+        <mat-label>Username</mat-label>
+        <input matInput [formControl]="searchControl" placeholder="Username" />
+    </mat-form-field>
+
+    @if (error()) {
+    <mat-error>{{ error()?.message }}</mat-error>
+    }
+
+    @if (responseUsername()) {
+    <mat-chip-option (click)="addUser()">
+        <mat-icon matChipAvatar>person</mat-icon>
+        {{ responseUsername() }}
+    </mat-chip-option>
+    }
+
+    <mat-chip-set>
+        @for (username of selectedUsernames(); track username) {
+        <mat-chip-row (removed)="removeUser(username)">
+            {{ username }}
+            <button matChipRemove>
+                <mat-icon>cancel</mat-icon>
+            </button>
+        </mat-chip-row>
+        } @empty {
+        <mat-chip>No users selected</mat-chip>
         }
-    </form>
+    </mat-chip-set>
 </mat-dialog-content>
+
 <mat-dialog-actions>
     <button matButton (click)="close()">Cancel</button>
-    <button matButton="tonal" [disabled]="isLoading()">
-        @if(isLoading()) {
-        <mat-spinner diameter=20></mat-spinner>
+    <button matButton="tonal" [disabled]="isLoading() || selectedUsernames().length === 0" (click)="confirm()">
+        @if (isLoading()) {
+        <mat-spinner diameter="20"></mat-spinner>
         } @else {
-        Add
+        Add ({{ selectedUsernames().length }})
         }
     </button>
 </mat-dialog-actions>

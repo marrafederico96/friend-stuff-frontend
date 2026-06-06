@@ -10,7 +10,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AuthService } from '../../features/auth/services/auth.service';
-import { UserProfileComponent } from "../../features/user-profile/components/user-profile.component";
+import { UserProfileComponent } from '../../features/user-profile/components/user-profile.component';
+import { UserProfileService } from '../../features/user-profile/services/user-profile.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -20,8 +21,8 @@ import { UserProfileComponent } from "../../features/user-profile/components/use
     MatButtonModule,
     RouterLink,
     MatProgressSpinnerModule,
-    UserProfileComponent
-],
+    UserProfileComponent,
+  ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
 })
@@ -29,6 +30,7 @@ export class DashboardComponent implements OnInit {
   readonly dialog = inject(MatDialog);
   private activtyService = inject(ActivityService);
   private authService = inject(AuthService);
+  private userProfileService = inject(UserProfileService);
 
   userActivities = computed(() => this.activtyService.userActivities());
   tokenDecoded = computed(() => this.authService.tokenDecoded());
@@ -49,6 +51,7 @@ export class DashboardComponent implements OnInit {
     this.activtyService.delete(publicActivityId).subscribe({
       next: () => {
         this.isLoading.set('');
+        this.userProfileService.getBalance().subscribe();
       },
     });
   }

@@ -2,7 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, computed, inject, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatChipListbox, MatChipListboxChange, MatChipOption } from '@angular/material/chips';
+import { MatChipListbox, MatChipListboxChange, MatChipOption, MatChip } from '@angular/material/chips';
 import {
   MAT_DIALOG_DATA,
   MatDialogActions,
@@ -28,7 +28,8 @@ import { ActivityDetailsService } from '../services/activity-details.service';
     MatProgressSpinner,
     MatChipListbox,
     MatChipOption,
-  ],
+    MatChip
+],
   templateUrl: './expense-participant-dialog.component.html',
   styleUrl: './expense-participant-dialog.component.scss',
 })

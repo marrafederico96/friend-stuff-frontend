@@ -4,6 +4,7 @@ import { Observable, tap } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { Result } from '../../../core/models/result.model';
 import {
+  AddActivityParticipantRequest,
   AddExpenseParticipantRequest,
   CreateExpenseRequest,
   RemoveExpenseParicipantRequest,
@@ -80,5 +81,17 @@ export class ActivityDetailsService {
         this.getActivityDetail(data.publicActivityId).subscribe();
       }),
     );
+  }
+
+  addActivityParticipant(data: AddActivityParticipantRequest): Observable<Result> {
+    return this.http
+      .post<Result>(`${this.apiUrl}/Activity/AddParticipants`, data)
+      .pipe(tap(() => this.getActivityDetail(data.publicActivityId).subscribe()));
+  }
+
+  searchUser(username: string): Observable<Result<string>> {
+    return this.http.get<Result<string>>(`${this.apiUrl}/Activity/SearchUser`, {
+      params: { request: username },
+    });
   }
 }

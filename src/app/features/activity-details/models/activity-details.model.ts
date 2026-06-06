@@ -36,3 +36,8 @@ export interface RemoveExpenseParicipantRequest {
   username: string;
   expensePublicId: string;
 }
+
+export interface AddActivityParticipantRequest {
+  usernames: string[];
+  publicActivityId: string;
+}

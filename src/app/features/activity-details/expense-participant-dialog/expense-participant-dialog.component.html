@@ -11,12 +11,14 @@
                 <mat-chip-option [value]="actPart" color="accent">
                     {{actPart}}
                 </mat-chip-option>
+                }@empty {
+                <mat-chip>No activity members</mat-chip>
                 }
             </mat-chip-listbox>
         </div>
 
         @if(error()) {
-        <mat-error style="margin-top: 16px; display: block;">{{error()?.message}}</mat-error>
+        <mat-error>{{error()?.message}}</mat-error>
         }
     </form>
 </mat-dialog-content>

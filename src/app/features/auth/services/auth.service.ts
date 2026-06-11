@@ -52,6 +52,14 @@ export class AuthService {
     this.tokenDecoded.set(undefined);
   }
 
+  getToken(): string | null {
+    return localStorage.getItem('token');
+  }
+
+  storeToken(token: string): void {
+    localStorage.setItem('token', token);
+  }
+
   refresh(): Observable<TokenResponse> {
     return this.http.post<TokenResponse>(
       `${this.apiUrl}/Auth/Refresh`,
